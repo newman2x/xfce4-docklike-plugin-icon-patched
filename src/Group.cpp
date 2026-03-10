@@ -800,13 +800,17 @@ void Group::updateStyle()
 			gtk_widget_set_tooltip_text(mButton, nullptr);
 
 		if (mWindowsCount > 2 && Settings::showWindowCount)
-		{
-			gchar* markup = g_strdup_printf("<b>%d</b>", (int)mWindowsCount);
-			gtk_label_set_markup(GTK_LABEL(mLabel), markup);
-			g_free(markup);
-		}
-		else
-			gtk_label_set_markup(GTK_LABEL(mLabel), "");
+        {
+        gchar* markup = g_strdup_printf("<b>%d</b>", (int)mWindowsCount);
+           gtk_label_set_markup(GTK_LABEL(mLabel), markup);
+          g_free(markup);
+           gtk_widget_show(mLabel);
+        }
+        else
+        {
+        gtk_label_set_markup(GTK_LABEL(mLabel), "");
+          gtk_widget_hide(mLabel);
+        }
 	}
 	else
 	{
