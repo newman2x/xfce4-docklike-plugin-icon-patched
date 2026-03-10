@@ -117,48 +117,191 @@ xfce4-panel -r
 ---
 
 ## CSS Customization
+Complete reference for styling via `~/.config/xfce4-docklike-plugin/gtk.css`
 
-The popup menu and badge can be fully customized via:
+---
+
+### Theme Variables
+
+Defined at runtime from the current GTK theme:
+
+| Variable | Description |
+|---|---|
+| `@menu_bgcolor` | Popup menu background color |
+| `@menu_item_color` | Menu item text color |
+| `@menu_item_color_hover` | Menu item text color on hover |
+| `@menu_item_bgcolor_hover` | Menu item background color on hover |
+| `@active_indicator_color` | Active window indicator color |
+| `@inactive_indicator_color` | Inactive window indicator color |
+
+---
+
+### Selector Tree
 
 ```
-~/.config/xfce4-docklike-plugin/gtk.css
-```
+#docklike-plugin                          the entire plugin widget
+└── .group                                each app button in the dock
+    ├── .open_group                       has at least 1 open window
+    ├── .active_group                     currently focused app
+    ├── .hover_group                      mouse hovering over button
+    ├── .drop_target                      drag-and-drop highlight
+    └── .window_count                     badge showing window count
+                                          only visible when > 1 window
+                                          position: bottom-right (GTK_ALIGN_END)
 
-Available CSS selectors:
-
-```css
-#docklike-plugin
-  .group
-  .group.open_group
-  .group.active_group
-  .group.hover_group
-  .group.drop_target
-    .window_count
-
-.xfce-docklike-window
-  .menu
-    .menu_item
-    .menu_item.active_menu_item
-    .menu_item.hover_menu_item
-      grid
-        .icon                   col 0, row 0
-        .title                  col 1, row 0
-        button                  col 2, row 0
-        .preview                col 0-2, row 1
-```
-
-Available theme variables:
-
-```css
-@menu_bgcolor
-@menu_item_color
-@menu_item_color_hover
-@menu_item_bgcolor_hover
-@active_indicator_color
-@inactive_indicator_color
+.xfce-docklike-window                     the floating popup window
+└── .menu                                 menu container box
+                                          background: @menu_bgcolor
+    └── .menu_item                        one row per open window
+        ├── .active_menu_item             row of currently focused window
+        ├── .hover_menu_item              row being hovered
+        └── grid                          3-column layout inside the row
+            │
+            ├── col 0, row 0  .icon       app icon (from .desktop file)
+            │                             size controlled in updateIcon()
+            │                             fallback: window's own icon
+            │
+            ├── col 1, row 0  .title      window title text
+            │                             ellipsized at end if too long
+            │                             width: gtk_label_set_width_chars()
+            │                             active window = bold markup <b>
+            │                             minimized window = italic markup <i>
+            │
+            ├── col 2, row 0  button      close button ✕
+            │                             icon: "window-close"
+            │                             no border (GTK_RELIEF_NONE)
+            │
+            └── col 0-2, row 1  .preview  window thumbnail screenshot
+                                          spans all 3 columns (full width)
+                                          hidden when window is minimized
+                                          scale: Settings::previewScale
+                                          refresh: Settings::previewSleep ms
+                                          X11 only — not available on Wayland
 ```
 
 ---
+
+### Grid Layout
+
+```
+┌──────────┬────────────────────────┬──────────┐  ← row 0
+│  .icon   │        .title          │  button  │
+├──────────┴────────────────────────┴──────────┤  ← row 1
+│                  .preview                    │
+└──────────────────────────────────────────────┘
+  col 0          col 1               col 2
+```
+
+---
+
+### Full CSS Example
+
+```css
+/* ── Dock Buttons ─────────────────────────────────── */
+
+#docklike-plugin {
+  /* the whole plugin */
+}
+
+.group {
+  border-radius: 6px;
+}
+
+.open_group {
+  box-shadow: inset 0px -3px 0px 0px @inactive_indicator_color;
+}
+
+.active_group {
+  box-shadow: inset 0px -3px 0px 0px @active_indicator_color;
+  background-color: alpha(@active_indicator_color, 0.1);
+}
+
+.hover_group {
+  background-color: alpha(@menu_item_bgcolor_hover, 0.2);
+}
+
+.drop_target {
+  box-shadow: inset 0px -3px 0px 0px @active_indicator_color;
+}
+
+/* Window count badge */
+.window_count {
+  background-color: alpha(@menu_item_bgcolor_hover, 0.85);
+  color: @menu_item_color;
+  border-radius: 999px;
+  border: 1px solid alpha(@menu_item_color, 0.5);
+  font-size: 10px;
+  min-width: 16px;
+  min-height: 16px;
+  padding: 0px;
+  margin: 2px;
+}
+
+
+/* ── Popup Menu ───────────────────────────────────── */
+
+.xfce-docklike-window .menu {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  background-color: @menu_bgcolor;
+}
+
+.xfce-docklike-window .menu_item {
+  padding: 4px 6px;
+}
+
+.xfce-docklike-window .menu_item grid {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Hovered row */
+.xfce-docklike-window .hover_menu_item {
+  background-color: alpha(@menu_item_bgcolor_hover, 0.2);
+}
+
+/* Focused window row */
+.xfce-docklike-window .active_menu_item {
+  background-color: alpha(@active_indicator_color, 0.15);
+}
+
+/* App icon */
+.xfce-docklike-window .menu_item .icon {
+  margin-right: 4px;
+}
+
+/* Window title */
+.xfce-docklike-window .menu_item .title {
+  font-size: 11px;
+  color: @menu_item_color;
+}
+
+/* Close button */
+.xfce-docklike-window .menu_item button {
+  padding: 0px;
+  margin: 0px;
+}
+
+/* Preview thumbnail */
+.xfce-docklike-window .menu_item .preview {
+  margin: 4px 2px 2px 2px;
+  border-radius: 6px;
+  border: 1px solid alpha(@menu_item_color, 0.15);
+}
+```
+
+---
+
+### Notes
+
+- CSS file: `~/.config/xfce4-docklike-plugin/gtk.css`
+- Reload: `xfce4-panel -r`
+- The `.xfce-docklike-window` prefix is **required** for popup menu selectors
+- Dock button selectors (`.group`, `.window_count`) do **not** need the prefix
+- The indicator bar/dot/circle is drawn with **Cairo** — not styleable via CSS
+- Preview thumbnails are **X11 only** — Wayland does not support foreign window capture
+
 
 ## Upstream
 
