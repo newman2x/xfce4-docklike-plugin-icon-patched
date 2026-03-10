@@ -39,7 +39,7 @@ GroupMenuItem::GroupMenuItem(GroupWindow* groupWindow)
 	g_object_ref(mItem);
 
 	mGrid = GTK_GRID(gtk_grid_new());
-	gtk_grid_set_column_spacing(mGrid, 6);
+	gtk_grid_set_column_spacing(mGrid, 4);
 	gtk_widget_show(GTK_WIDGET(mGrid));
 	gtk_container_add(GTK_CONTAINER(mItem), GTK_WIDGET(mGrid));
 
@@ -52,7 +52,7 @@ GroupMenuItem::GroupMenuItem(GroupWindow* groupWindow)
 	Help::Gtk::cssClassAdd(GTK_WIDGET(mLabel), "title");
 	gtk_label_set_xalign(mLabel, 0);
 	gtk_label_set_ellipsize(mLabel, PANGO_ELLIPSIZE_END);
-	gtk_label_set_width_chars(mLabel, 26);
+	gtk_label_set_width_chars(mLabel, 24);
 	gtk_widget_show(GTK_WIDGET(mLabel));
 	gtk_grid_attach(mGrid, GTK_WIDGET(mLabel), 1, 0, 1, 1);
 
@@ -212,7 +212,7 @@ void GroupMenuItem::updatePreview()
 		GdkPixbuf* pixbuf;
 		GdkPixbuf* thumbnail;
 
-		double scale = 0.125;
+		double scale = 0.160;
 		if (Settings::previewScale)
 			scale = Settings::previewScale;
 

@@ -75,8 +75,8 @@ Group::Group(std::shared_ptr<AppInfo> appInfo, bool pinned) : mGroupMenu(this)
 	gtk_label_set_use_markup(GTK_LABEL(mLabel), true);
 	gtk_container_add(GTK_CONTAINER(overlay), mImage);
 	gtk_overlay_add_overlay(GTK_OVERLAY(overlay), mLabel);
-	gtk_widget_set_halign(mLabel, GTK_ALIGN_START);
-	gtk_widget_set_valign(mLabel, GTK_ALIGN_START);
+	gtk_widget_set_halign(mLabel, GTK_ALIGN_END);
+    gtk_widget_set_valign(mLabel, GTK_ALIGN_END);
 	gtk_overlay_set_overlay_pass_through(GTK_OVERLAY(overlay), mLabel, true);
 	gtk_container_add(GTK_CONTAINER(mButton), overlay);
 
@@ -799,7 +799,7 @@ void Group::updateStyle()
 		else
 			gtk_widget_set_tooltip_text(mButton, nullptr);
 
-		if (mWindowsCount > 2 && Settings::showWindowCount)
+		if (mWindowsCount > 1 && Settings::showWindowCount)
         {
         gchar* markup = g_strdup_printf("<b>%d</b>", (int)mWindowsCount);
            gtk_label_set_markup(GTK_LABEL(mLabel), markup);

@@ -19,19 +19,22 @@
 #ifndef THEME_HPP
 #define THEME_HPP
 
-#define DEFAULT_THEME ".xfce-docklike-window .menu { margin: 0px; padding: 0px; border: 0px; background-color: @menu_bgcolor; }\n" \
-				  ".xfce-docklike-window .menu_item grid { margin: 0px; padding:4px; }\n"                                      \
-				  ".xfce-docklike-window .menu_item .preview { margin:2px 0px }\n"                                             \
+#define DEFAULT_THEME ".xfce-docklike-window .menu { margin: 0px; padding:0px; border: 0px; background-color: @menu_bgcolor; }\n" \
+				  ".xfce-docklike-window .menu_item grid { margin: 0px; padding:6px; }\n"                                      \
+				  ".xfce-docklike-window .menu_item .preview {margin:0px; padding:0px;-gtk-icon-transform:translateX(-2px);}\n"  \
 				  ".xfce-docklike-window .hover_menu_item { background-color: alpha(@menu_item_color_hover, 0.2); }\n"         \
+                  ".xfce-docklike-window .menu_item .title, .xfce-docklike-window .active_menu_item .title { \n"   \
+                  "font-size: 12px; }\n"         \
 				  ".window_count {\n"                                                                                          \
-				  "  background-color: alpha(@menu_item_bgcolor_hover, 0.85);\n"                                               \
+				  "  background-color: rgba(0, 0, 0, 0.9);\n"                                               \
 				  "  color: @menu_item_color;\n"                                                                               \
+                  "  border: 1px solid rgba(255,255,255,0.9);\n"                                                               \
 				  "  border-radius: 999px;\n"                                                                                  \
-				  "  font-size: 9px;\n"                                                                                        \
-				  "  min-width: 10px;\n"                                                                                       \
-				  "  min-height: 10px;\n"                                                                                      \
-				  "  padding: 0px 0px;\n"                                                                                      \
-				  "  margin: 0px;\n"                                                                                           \
+				  "  font-size: 9px;\n"                                                                                       \
+				  "  min-width: 11px;\n"                                                                                       \
+				  "  min-height: 11px;\n"                                                                                      \
+				  "  padding: 0px;\n"                                                                                          \
+				  "  margin: 1px;\n"                                                                                           \
 				  "}\n";
 
 #include "Dock.hpp"
