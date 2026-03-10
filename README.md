@@ -127,19 +127,24 @@ The popup menu and badge can be fully customized via:
 Available CSS selectors:
 
 ```css
-#docklike-plugin       /* the whole plugin */
-.group                 /* each app icon button */
-.open_group            /* app has open windows */
-.active_group          /* currently focused app */
-.hover_group           /* mouse hovering */
-.menu                  /* popup menu container */
-.menu_item             /* each window row in popup */
-.active_menu_item      /* focused window row */
-.hover_menu_item       /* hovered window row */
-.window_count          /* window count badge */
-.icon                  /* icon in popup menu item */
-.title                 /* label in popup menu item */
-.preview               /* thumbnail preview */
+#docklike-plugin
+  .group
+  .group.open_group
+  .group.active_group
+  .group.hover_group
+  .group.drop_target
+    .window_count
+
+.xfce-docklike-window
+  .menu
+    .menu_item
+    .menu_item.active_menu_item
+    .menu_item.hover_menu_item
+      grid
+        .icon                   col 0, row 0
+        .title                  col 1, row 0
+        button                  col 2, row 0
+        .preview                col 0-2, row 1
 ```
 
 Available theme variables:
