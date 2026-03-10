@@ -88,7 +88,7 @@ sudo apt install git meson ninja-build g++ \
 ### Clone & Build
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/xfce4-docklike-plugin-patched.git
+git clone https://github.com/newman2x/xfce4-docklike-plugin-patched.git
 cd xfce4-docklike-plugin-patched
 meson setup build
 cd build
